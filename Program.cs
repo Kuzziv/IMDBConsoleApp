@@ -2,8 +2,6 @@
 using IMDBLib.Services;
 
 
-
-
 string titlesFilePath = "C:\\Users\\mads-\\OneDrive\\Skrivebord\\4.Semester\\Database\\DataSet\\title.basics.data.tsv";
 string namesFilePath = "C:\\Users\\mads-\\OneDrive\\Skrivebord\\4.Semester\\Database\\DataSet\\name.basics.data.tsv";
 string crewFilePath = "C:\\Users\\mads-\\OneDrive\\Skrivebord\\4.Semester\\Database\\DataSet\\title.crew.data.tsv";
