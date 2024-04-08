@@ -11,12 +11,27 @@ string crewFilePath = "C:\\Users\\mads-\\OneDrive\\Skrivebord\\4.Semester\\Datab
 
 try
 {
+    TimeZoneInfo danishTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Central European Standard Time");
+    DateTime danishNow = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, danishTimeZone);
+    TimeOnly startTime = TimeOnly.FromDateTime(danishNow);
 
-    YourDbContext yourDbContext = new YourDbContext();
+    Console.WriteLine("Start time: " + startTime);
 
-    DataImportService dataImportService = new DataImportService(yourDbContext);
+    IMDBDbContext dbContext = new IMDBDbContext();
+    DataImportService dataImportService = new DataImportService();
+    DataDeleteService dataDeleteService = new DataDeleteService(dbContext);
 
-    dataImportService.ImportData(titlesFilePath, namesFilePath, crewFilePath, 1000, 50000, 10);
+    DataLoadService dataLoadService = new DataLoadService(dbContext, dataImportService, dataDeleteService);
+
+    await dataLoadService.LoadDataAsync(titlesFilePath, namesFilePath, crewFilePath, 10000, 100000);
+
+    DateTime danishEndTime = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, danishTimeZone);
+    TimeOnly endTime = TimeOnly.FromDateTime(danishEndTime);
+
+    Console.WriteLine("End time: " + endTime);
+
+    TimeSpan totalDuration = danishEndTime - danishNow;
+    Console.WriteLine("Total time taking: " + totalDuration);
 }
 catch (Exception e)
 {
